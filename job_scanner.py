@@ -129,16 +129,50 @@ STUDIO_COMPANIES = {
     "netflix",
 }
 TERM_ALIASES = {
-    "help desk": ("help desk", "service desk", "desktop support", "it support"),
+    "help desk": (
+        "help desk",
+        "helpdesk",
+        "service desk",
+        "desktop support",
+        "desktop specialist",
+        "technical support",
+        "it support",
+        "it support specialist",
+        "it support technician",
+        "support technician",
+    ),
     "support analyst": (
         "support analyst",
         "technical support analyst",
         "it support analyst",
         "desktop support analyst",
         "help desk analyst",
+        "operations support analyst",
+        "application support analyst",
+        "systems support analyst",
+        "production support analyst",
     ),
-    "desktop support": ("desktop support", "endpoint support", "workstation support"),
+    "desktop support": (
+        "desktop support",
+        "desktop specialist",
+        "desktop technician",
+        "desktop engineer",
+        "endpoint support",
+        "workstation support",
+        "technical support",
+        "it support",
+    ),
     "media systems engineer": ("media systems engineer", "media engineer", "broadcast engineer", "production technology"),
+}
+SUPPORT_ROLE_HINTS = {
+    "analyst",
+    "specialist",
+    "technician",
+    "engineer",
+    "administrator",
+    "coordinator",
+    "associate",
+    "representative",
 }
 ZIP_LOOKUP_URL = "https://api.zippopotam.us/us/{zip_code}"
 ZIP_FALLBACKS = {
@@ -682,6 +716,23 @@ def _matches_search_term(listing: JobListing, search_term: str) -> bool:
     tokens = [token for token in _normalize_text(search_term).split() if token]
     if tokens and all(token in title for token in tokens):
         return True
+
+    normalized_term = _normalize_text(search_term)
+    title_tokens = set(title.split())
+
+    if normalized_term == "help desk":
+        if ("support" in title_tokens or "desk" in title_tokens) and title_tokens.intersection(SUPPORT_ROLE_HINTS):
+            return True
+
+    if normalized_term == "support analyst":
+        if "support" in title_tokens and title_tokens.intersection({"analyst", "specialist", "engineer"}):
+            return True
+
+    if normalized_term == "desktop support":
+        if ("desktop" in title_tokens or "endpoint" in title_tokens or "workstation" in title_tokens) and title_tokens.intersection(
+            {"support", "specialist", "technician", "engineer"}
+        ):
+            return True
 
     return False
 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Scanner Web</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="Neon Pulse" data-density="Comfortable">
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Job Scanner Web</h1>
+        <p>HTML version of the job scanner with saved layout, themes, text sizing, and a browser-friendly UI shell.</p>
+      </div>
+      <div class="toolbar">
+        <label class="toolbar-group">
+          <span>Theme</span>
+          <select id="themeSelect"></select>
+        </label>
+        <div class="toolbar-group text-controls">
+          <span>Text</span>
+          <button id="textDown" type="button">-</button>
+          <button id="textUp" type="button">+</button>
+        </div>
+        <label class="toolbar-group">
+          <span>Density</span>
+          <select id="densitySelect">
+            <option>Compact</option>
+            <option selected>Comfortable</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="filters card">
+        <div class="filter-grid">
+          <label>
+            <span>ZIP code</span>
+            <input id="zipCode" type="text" placeholder="91607">
+          </label>
+          <label>
+            <span>City</span>
+            <input id="city" type="text" placeholder="Los Angeles">
+          </label>
+          <label>
+            <span>State</span>
+            <select id="state"></select>
+          </label>
+          <label>
+            <span>Distance</span>
+            <input id="distance" type="number" min="1" max="25" placeholder="12">
+          </label>
+          <label>
+            <span>Posted within hours</span>
+            <input id="hoursOld" type="number" min="1" placeholder="6">
+          </label>
+          <label>
+            <span>Results per term</span>
+            <input id="resultsPerTerm" type="number" min="1" placeholder="30">
+          </label>
+          <label>
+            <span>Pay min</span>
+            <input id="payMin" type="number" min="0" placeholder="50000">
+          </label>
+          <label>
+            <span>Pay max</span>
+            <input id="payMax" type="number" min="0" placeholder="85000">
+          </label>
+          <label class="checkbox-line">
+            <input id="remoteOnly" type="checkbox">
+            <span>Remote only</span>
+          </label>
+          <div class="button-row">
+            <button id="scanButton" type="button" class="primary">Scan Jobs</button>
+            <button id="exportButton" type="button">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="secondary-grid">
+          <div class="search-titles">
+            <label>
+              <span>Search titles (OR logic; one per line or use OR). Terms must appear in the job title.</span>
+              <textarea id="searchTitles" rows="4" placeholder="desktop support&#10;help desk&#10;support analyst"></textarea>
+            </label>
+          </div>
+          <div class="job-boards">
+            <span class="section-label">Job boards</span>
+            <div id="jobBoards" class="chip-grid"></div>
+          </div>
+        </div>
+
+        <div class="meta-controls">
+          <div class="alert-controls">
+            <label><input id="autoScan" type="checkbox"> Auto-scan every</label>
+            <input id="autoScanMinutes" type="number" min="1" value="15">
+            <span>minutes</span>
+            <label><input id="desktopAlert" type="checkbox" checked> Desktop alert</label>
+            <label><input id="flashAlert" type="checkbox" checked> Flash alert</label>
+            <label><input id="soundAlert" type="checkbox"> Sound alert</label>
+            <button id="testSound" type="button">Test sound</button>
+          </div>
+          <label class="custom-url">
+            <span>Optional custom careers/search URL</span>
+            <input id="customUrl" type="url" placeholder="https://jobs.example.com/careers">
+          </label>
+          <div class="column-controls">
+            <span class="section-label">Visible result columns</span>
+            <div id="columnToggles" class="chip-grid compact"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="statusbar">
+        <div id="statusText">Ready</div>
+        <div id="locationText">Location: not searched yet</div>
+        <div id="resultsText">Results: 0</div>
+      </section>
+
+      <section class="results-layout">
+        <div class="results-panel card">
+          <div class="tabs">
+            <button class="tab active" data-tab="all">All Jobs</button>
+            <button class="tab" data-tab="new">New Jobs</button>
+          </div>
+          <div class="table-scroll">
+            <table id="resultsTable">
+              <thead>
+                <tr id="resultsHead"></tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="detail-panel card">
+          <h2>Listing details</h2>
+          <div id="detailPane" class="detail-content">Select a job to inspect the description, salary info, and links.</div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <audio id="startupSound" preload="auto" src="95.mp3"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
