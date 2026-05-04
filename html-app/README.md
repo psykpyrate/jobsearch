@@ -1,7 +1,7 @@
 # Job Scanner Web
 
 This folder contains an HTML/CSS/JavaScript version of the job scanner UI. 
-Cloudflare rebuild trigger
+Cloudflare rebuild trigger for RICO
 
 What it includes right now:
 
